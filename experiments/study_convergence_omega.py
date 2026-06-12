@@ -110,6 +110,14 @@ def main():
     axes[0].set_xlabel(r"Time step $\Delta t$")
     axes[0].set_ylabel(r"Global error at $T=4$")
     axes[0].set_title("(a) order of convergence"); axes[0].legend(fontsize=9)
+    # The Delta t range spans only ~1.5 decades, so matplotlib's default log axis
+    # labels many minor ticks (2e-2, 3e-2, ...) that overlap. Use a few explicit,
+    # cleanly-formatted decade-spaced major ticks and drop the minor-tick labels.
+    from matplotlib.ticker import FixedLocator, NullFormatter, FuncFormatter
+    axes[0].set_xlim(0.012, 0.62)
+    axes[0].xaxis.set_major_locator(FixedLocator([0.02, 0.05, 0.1, 0.2, 0.5]))
+    axes[0].xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}"))
+    axes[0].xaxis.set_minor_formatter(NullFormatter())
 
     axes[1].semilogy(omegas, np.maximum(floor, 1e-17), "o-", color=COLORS["SP-PINN"])
     axes[1].set_xlabel(r"Binding constant $\Omega$")
