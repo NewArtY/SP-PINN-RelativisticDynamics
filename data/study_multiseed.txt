@@ -1,0 +1,9 @@
+eps_theta_rms_mean 4.069801e-02
+eps_theta_rms_std 5.473872e-03
+eps_theta_rms_values 3.6504e-02,4.9820e-02,3.6882e-02,4.4256e-02,3.6028e-02
+time_Boris_mean_ms 0.1083
+time_Boris_std_ms 0.0027
+time_RK4_mean_ms 0.2171
+time_RK4_std_ms 0.0037
+time_SP-PINN_mean_ms 0.7261
+time_SP-PINN_std_ms 0.0037

@@ -1,0 +1,6 @@
+training_time_s 117.19
+H 6.919292e-01
+gradP 3.794509e-01
+gradr 2.624369e-01
+eps_theta 6.919292e-01
+larmor_drift_200periods 2.922522e+01
