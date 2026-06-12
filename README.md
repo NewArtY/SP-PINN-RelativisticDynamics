@@ -63,8 +63,11 @@ contrast between **bounded** and **secular** error growth:
 > Stage-2 map is exactly symplectic and 4th order. For the time-dependent laser
 > field the present implementation freezes the field within each step, so it is
 > a high-order *structure-aware* scheme there rather than strictly symplectic;
-> promoting time to a canonical coordinate restores exact symplecticity and is
-> left as future work.
+> promoting time to a canonical coordinate restores exact symplecticity — this
+> *autonomized* map is implemented (`AutonomizedField` in `relsim/fields.py`) and
+> validated on a plane wave by `sim6_planewave.py` (see below), where it conserves
+> the light-front invariant `gamma - p_z` about three orders of magnitude better
+> than the frozen-in-time map.
 
 We do **not** claim that SP-PINN beats a high-order method like RK4 in absolute
 short-time accuracy on these benign benchmarks; its value is the absence of
@@ -102,6 +105,8 @@ Each script can also be run individually; all write to `../figures` and
 | `study_convergence_omega.py` | Figure A2 (Δt-convergence order; Ω binding-constant study) |
 | `study_multiseed.py` | multi-seed ε_θ and timing statistics |
 | `make_fig1_schematic.py` | Figure 1 (architecture schematic) |
+| `train_laser_A_residual.py` | **GPU-recommended** Stage-1 training of the A-residual light-cone laser surrogate (the formulation that works; reaches ε_θ ≈ 3.4e-4). Writes the checkpoint to `../data`. |
+| `make_fig_laser_surrogate.py` | Figure 7 (the *learned* surrogate in action: γ(t) of the learned-Hamiltonian trajectory vs the analytic reference) |
 | `notebooks/SP_PINN_3plus1D_surrogate_colab.ipynb` | **GPU** training of the time-dependent 3+1D laser surrogate (Google Colab) |
 
 ### Time-dependent fields and the autonomized symplectic map
