@@ -171,7 +171,7 @@ Hamilton's equations (gradient matching).
 """))
 
 cells.append(code(r"""
-HARM = [1, 2, 3, 4, 6, 8]      # carrier harmonics for the Fourier embedding
+HARM = [1, 2, 3, 4, 5, 6, 8, 10, 12]   # carrier harmonics for the Fourier embedding
 
 class HNet(nn.Module):
     def __init__(self, width=256, depth=6):
@@ -197,7 +197,10 @@ class HNet(nn.Module):
 
 model = HNet().to(device)
 print('parameters:', sum(p.numel() for p in model.parameters()))
-w_H, w_g = 1.0, 1.0
+# The Stage-2 integrator uses the GRADIENTS of H (force, velocity), so the
+# Hamilton-equations term is weighted more heavily than the mass-shell term:
+# this is what controls trajectory (carrier-phase) fidelity.
+w_H, w_g = 1.0, 5.0
 """))
 
 cells.append(code(r"""
@@ -210,7 +213,7 @@ def loss_on(idx):
     return w_H*L_mass + w_g*L_eqs, L_mass.detach(), L_eqs.detach()
 
 opt = torch.optim.Adam(model.parameters(), lr=2e-3)
-EPOCHS, BATCH = 6000, 20_000
+EPOCHS, BATCH = 10_000, 20_000
 sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=EPOCHS)
 hist = []
 t0 = time.time()
@@ -313,9 +316,17 @@ cells.append(md(r"""
 - The surrogate is trained on a **tube** around the integrated trajectory, so it is
   accurate where the Stage-2 integrator evaluates it; this is the regime the paper's
   learned pipeline needs. The reported $\varepsilon_\theta$ is the **in-tube** error.
+- **Trajectory (carrier-phase) fidelity is harder than the mass-shell fit.** The
+  laser-driven quiver is a resonantly forced oscillation, so even a $\sim$2% gradient
+  error accumulates into a carrier-phase slip: the integrated $\gamma(t)$ can have the
+  right amplitude yet drift out of phase, inflating the pointwise error. Because the
+  integrator uses the *gradients* of $\mathcal H_\theta$, the Hamilton-equations loss is
+  weighted more heavily (`w_g = 5`) and extra harmonics are included; for faithful
+  integration you generally need $\varepsilon_\theta$ much smaller than the mass-shell
+  fit alone suggests.
 - To push $\varepsilon_\theta$ lower: increase `EPOCHS`, `width`/`depth`, the number of
-  carrier harmonics in `HARM`, and the tube density `N_train`; widen `tube_w` only as
-  much as the integrator actually explores.
+  carrier harmonics in `HARM`, the gradient weight `w_g`, and the tube density
+  `N_train`; widen `tube_w` only as much as the integrator actually explores.
 - A genuinely *global* surrogate (accurate over the full box, for arbitrary
   trajectories) remains hard because of the carrier oscillations and is a direction for
   future work (e.g. multiplicative Fourier networks, domain decomposition along $\eta$,
