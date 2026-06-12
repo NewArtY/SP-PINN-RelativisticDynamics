@@ -17,7 +17,7 @@ from relsim.integrators import boris_step, rk4_step, TaoSymplectic, rk8_referenc
 from relsim.diagnostics import (gamma_of_p, kinetic_to_canonical,
                                 canonical_to_kinetic)
 import matplotlib.pyplot as plt
-from relsim.plotstyle import apply_style, COLORS
+from relsim.plotstyle import apply_style, COLORS, LINESTYLES
 
 
 def run(a0=5.0, tau=30.0, dt=0.01):
@@ -75,26 +75,26 @@ def make_figure(times, out, params):
     tt = times / tau
     # (a) z(t)
     for s in ["RK4", "Boris", "SP-PINN"]:
-        axes[0].plot(tt, out[s][0], color=COLORS[s], label=s)
-    axes[0].plot(tt, out["RK8"][0], "k--", lw=1.2, label="RK8 ref")
+        axes[0].plot(tt, out[s][0], color=COLORS[s], ls=LINESTYLES[s], label=s)
+    axes[0].plot(tt, out["RK8"][0], color="k", ls=LINESTYLES["RK8"], lw=1.2, label="RK8 ref")
     axes[0].set_xlabel(r"$t/\tau_L$"); axes[0].set_ylabel(r"$z(t)$  [$c/\omega_0$]")
-    axes[0].set_title("(a)"); axes[0].legend(loc="best")
+    axes[0].set_title("(a)"); axes[0].legend(loc="upper left")
     # (b) gamma(t)
     for s in ["RK4", "Boris", "SP-PINN"]:
-        axes[1].plot(tt, out[s][1], color=COLORS[s], label=s)
-    axes[1].plot(tt, out["RK8"][1], "k--", lw=1.2, label="RK8 ref")
+        axes[1].plot(tt, out[s][1], color=COLORS[s], ls=LINESTYLES[s], label=s)
+    axes[1].plot(tt, out["RK8"][1], color="k", ls=LINESTYLES["RK8"], lw=1.2, label="RK8 ref")
     axes[1].set_xlabel(r"$t/\tau_L$"); axes[1].set_ylabel(r"$\gamma(t)$")
-    axes[1].set_title("(b)"); axes[1].legend(loc="best")
+    axes[1].set_title("(b)"); axes[1].legend(loc="upper left")
     # (c) energy error after the pulse
     g_ref = out["RK8"][1]
     mask = times > tau           # post-interaction
     for s in ["RK4", "Boris", "SP-PINN"]:
         err = np.abs(out[s][1] - g_ref) / np.abs(g_ref)
         axes[2].semilogy(tt[mask], np.maximum(err[mask], 1e-17),
-                         color=COLORS[s], label=s)
+                         color=COLORS[s], ls=LINESTYLES[s], label=s)
     axes[2].set_xlabel(r"$t/\tau_L$")
-    axes[2].set_ylabel(r"Relative energy error $\Delta\mathcal{E}/\mathcal{E}_0$")
-    axes[2].set_title("(c)"); axes[2].legend(loc="best")
+    axes[2].set_ylabel(r"Rel. energy error $\Delta\mathcal{E}/\mathcal{E}_0$")
+    axes[2].set_title("(c)"); axes[2].legend(loc="upper right")
     fig.savefig(os.path.join(_paths.FIG, "figure3.pdf"))
     fig.savefig(os.path.join(_paths.FIG, "figure3.png"))
     plt.close(fig)

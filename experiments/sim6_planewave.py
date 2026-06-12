@@ -87,14 +87,22 @@ def run(a0=2.0, k0=1.0, n_periods=1000, steps_per_period=100, omega=20.0):
 def make_figure(res):
     apply_style()
     per = res["periods"]
-    order = ["RK4", "Boris", "SP-PINN (frozen)", "SP-PINN (time-coord)"]
+    # Keep green = SP-PINN throughout; the frozen vs. autonomized (time-coord)
+    # variants are distinguished by line style, not by a new colour.  The
+    # highlighted bounded trace (time-coord) is drawn last, on top, opaque.
+    order = ["Boris", "RK4", "SP-PINN (frozen)", "SP-PINN (time-coord)"]
     col = {"RK4": COLORS["RK4"], "Boris": COLORS["Boris"],
-           "SP-PINN (frozen)": COLORS["PINN"], "SP-PINN (time-coord)": COLORS["SP-PINN"]}
-    ls = {"RK4": "-", "Boris": "-", "SP-PINN (frozen)": "--", "SP-PINN (time-coord)": "-"}
+           "SP-PINN (frozen)": COLORS["SP-PINN"], "SP-PINN (time-coord)": COLORS["SP-PINN"]}
+    ls = {"RK4": "-", "Boris": "--", "SP-PINN (frozen)": ":", "SP-PINN (time-coord)": "-"}
+    zo = {"RK4": 2, "Boris": 2, "SP-PINN (frozen)": 1, "SP-PINN (time-coord)": 5}
+    al = {"RK4": 0.9, "Boris": 0.9, "SP-PINN (frozen)": 0.7, "SP-PINN (time-coord)": 1.0}
+    lw = {"RK4": 1.6, "Boris": 1.6, "SP-PINN (frozen)": 1.6, "SP-PINN (time-coord)": 2.2}
     fig, axes = plt.subplots(1, 2, figsize=(9.6, 3.7))
     for s in order:
-        axes[0].loglog(per, np.maximum(res["dK"][s], 1e-17), color=col[s], ls=ls[s], label=s)
-        axes[1].loglog(per, np.maximum(res["dPx"][s], 1e-17), color=col[s], ls=ls[s], label=s)
+        axes[0].loglog(per, np.maximum(res["dK"][s], 1e-17), color=col[s], ls=ls[s],
+                       lw=lw[s], alpha=al[s], zorder=zo[s], label=s)
+        axes[1].loglog(per, np.maximum(res["dPx"][s], 1e-17), color=col[s], ls=ls[s],
+                       lw=lw[s], alpha=al[s], zorder=zo[s], label=s)
     axes[0].set_xlabel("Wave periods $n$")
     axes[0].set_ylabel(r"$|K-1|$,  $K=\gamma-p_z$ (light-front)")
     axes[0].set_title("(a) time-related invariant")
@@ -102,7 +110,8 @@ def make_figure(res):
     axes[1].set_ylabel(r"$|P_x(t)-P_x(0)|$ (transverse Noether)")
     axes[1].set_title("(b) transverse canonical momentum")
     for ax in axes:
-        ax.legend(loc="best", fontsize=8); ax.set_ylim(1e-17, 1e0)
+        ax.set_ylim(1e-17, 1e1)               # extra top decade as clear legend space
+        ax.legend(loc="upper right", fontsize=8)
     fig.savefig(os.path.join(_paths.FIG, "figureA1.pdf"))
     fig.savefig(os.path.join(_paths.FIG, "figureA1.png"))
     plt.close(fig)

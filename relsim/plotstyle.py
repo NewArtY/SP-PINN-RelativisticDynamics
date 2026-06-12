@@ -18,6 +18,24 @@ COLORS = {
 }
 MARKERS = {"Boris": "s", "RK4": "o", "SP-PINN": "^", "RK8": None, "PINN": "D"}
 
+# Canonical line styles, applied consistently across every data figure so that
+# each method is identified by BOTH colour and dash pattern (colour-blind- and
+# grayscale-safe).  RK8 stays dashed black as the reference.
+LINESTYLES = {
+    "Boris": "--",
+    "RK4": "-",
+    "SP-PINN": ":",
+    "RK8": "--",
+    "PINN": ":",
+}
+
+
+def line_kw(name, **extra):
+    """Return ``color``/``linestyle``/``label`` kwargs for a method curve."""
+    kw = {"color": COLORS[name], "linestyle": LINESTYLES[name], "label": name}
+    kw.update(extra)
+    return kw
+
 
 def apply_style():
     mpl.rcParams.update({

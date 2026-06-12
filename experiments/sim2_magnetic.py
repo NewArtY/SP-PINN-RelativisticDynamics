@@ -26,7 +26,7 @@ from relsim.integrators import boris_step, rk4_step, TaoSymplectic
 from relsim.diagnostics import (gamma_of_p, kinetic_to_canonical,
                                 canonical_to_kinetic)
 import matplotlib.pyplot as plt
-from relsim.plotstyle import apply_style, COLORS
+from relsim.plotstyle import apply_style, COLORS, LINESTYLES
 
 
 def run(gamma0=5.0, B0=1.0, n_periods=4000, steps_per_period=100, omega=15.0):
@@ -80,8 +80,8 @@ def make_figure(res):
     fig, axes = plt.subplots(1, 2, figsize=(9.4, 3.7))
     floor = 1e-16
     for s in ["RK4", "Boris", "SP-PINN"]:
-        axes[0].loglog(per, np.maximum(res["drL"][s], floor), color=COLORS[s], label=s)
-        axes[1].loglog(per, np.maximum(res["dgam"][s], floor), color=COLORS[s], label=s)
+        axes[0].loglog(per, np.maximum(res["drL"][s], floor), color=COLORS[s], ls=LINESTYLES[s], label=s)
+        axes[1].loglog(per, np.maximum(res["dgam"][s], floor), color=COLORS[s], ls=LINESTYLES[s], label=s)
     axes[0].set_xlabel("Cyclotron periods $n$")
     axes[0].set_ylabel(r"Relative Larmor-radius error $\Delta r_L/r_L^{(0)}$")
     axes[0].set_title("(a)")

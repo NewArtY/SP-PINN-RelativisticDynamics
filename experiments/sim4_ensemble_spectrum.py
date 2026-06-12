@@ -20,7 +20,7 @@ from relsim.fields import GaussianLaserPulse
 from relsim.integrators import boris_step, rk4_step, TaoSymplectic, rk8_reference
 from relsim.diagnostics import gamma_of_p, kinetic_to_canonical, canonical_to_kinetic
 import matplotlib.pyplot as plt
-from relsim.plotstyle import apply_style, COLORS
+from relsim.plotstyle import apply_style, COLORS, LINESTYLES
 
 
 def integrate_ensemble(field, r0, p0, times, dt, scheme):
@@ -115,23 +115,23 @@ def make_figure(times, tau, spectra, Pxerr):
     for s in ["RK8", "RK4", "Boris", "SP-PINN"]:
         if s == "RK8":
             axes[0].hist(spectra[s], bins=bins, histtype="step",
-                         color="k", ls="--", lw=1.3)
-            handles.append(Line2D([0], [0], color="k", ls="--", lw=1.3,
-                                  label="reference (fine step)"))
+                         color="k", ls=LINESTYLES["RK8"], lw=1.3)
+            handles.append(Line2D([0], [0], color="k", ls=LINESTYLES["RK8"], lw=1.3,
+                                  label="reference (curves overlap)"))
         else:
             axes[0].hist(spectra[s], bins=bins, histtype="step",
-                         color=COLORS[s], lw=1.6)
-            handles.append(Line2D([0], [0], color=COLORS[s], lw=1.6, label=s))
+                         color=COLORS[s], ls=LINESTYLES[s], lw=1.6)
+            handles.append(Line2D([0], [0], color=COLORS[s], ls=LINESTYLES[s], lw=1.6, label=s))
     axes[0].set_xlabel(r"$\gamma_{\rm final}$")
     axes[0].set_ylabel(r"$dN/d\gamma$  (counts)")
-    axes[0].set_title("(a)"); axes[0].legend(handles=handles, loc="best")
+    axes[0].set_title("(a)"); axes[0].legend(handles=handles, loc="upper right")
     # (b) transverse canonical momentum error
     tt = times / tau
     for s in ["RK4", "Boris", "SP-PINN"]:
-        axes[1].semilogy(tt, np.maximum(Pxerr[s], 1e-17), color=COLORS[s], label=s)
+        axes[1].semilogy(tt, np.maximum(Pxerr[s], 1e-17), color=COLORS[s], ls=LINESTYLES[s], label=s)
     axes[1].set_xlabel(r"$t/\tau_L$")
     axes[1].set_ylabel(r"$|\,P_x(t)-P_x^{\rm ref}(t)\,|$")
-    axes[1].set_title("(b)"); axes[1].legend(loc="best")
+    axes[1].set_title("(b)"); axes[1].legend(loc="lower right")
     fig.savefig(os.path.join(_paths.FIG, "figure4.pdf"))
     fig.savefig(os.path.join(_paths.FIG, "figure4.png"))
     plt.close(fig)

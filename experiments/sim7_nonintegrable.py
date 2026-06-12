@@ -20,7 +20,7 @@ from relsim.fields import MagneticWell
 from relsim.integrators import boris_step, rk4_step, TaoSymplectic
 from relsim.diagnostics import kinetic_to_canonical, canonical_to_kinetic
 import matplotlib.pyplot as plt
-from relsim.plotstyle import apply_style, COLORS
+from relsim.plotstyle import apply_style, COLORS, LINESTYLES
 
 
 def run(B0=1.0, kperp=1.0, eps=0.30, n_steps=300000, dt=0.05, omega=10.0):
@@ -70,16 +70,17 @@ def run(B0=1.0, kperp=1.0, eps=0.30, n_steps=300000, dt=0.05, omega=10.0):
 def make_figure(res):
     apply_style()
     fig, axes = plt.subplots(1, 2, figsize=(9.4, 3.7))
-    # (a) chaotic orbit
+    # (a) chaotic orbit -- neutral colour: this is an illustrative trajectory of
+    # the dynamics, not a method comparison (avoid implying it is "the SP-PINN" run)
     ob = res["orbit"]
-    axes[0].plot(ob[:, 0], ob[:, 1], color=COLORS["SP-PINN"], lw=0.6)
+    axes[0].plot(ob[:, 0], ob[:, 1], color="0.30", lw=0.6)
     axes[0].set_xlabel("$x$"); axes[0].set_ylabel("$y$")
     axes[0].set_title("(a) representative orbit"); axes[0].set_aspect("equal", "box")
     axes[0].grid(alpha=0.3)
     # (b) energy error
     t = res["times"]
     for s in ["RK4", "Boris", "SP-PINN"]:
-        axes[1].loglog(t, np.maximum(res["dH"][s], 1e-17), color=COLORS[s], label=s)
+        axes[1].loglog(t, np.maximum(res["dH"][s], 1e-17), color=COLORS[s], ls=LINESTYLES[s], label=s)
     axes[1].set_xlabel("time $t$")
     axes[1].set_ylabel(r"Relative energy error $|H(t)-H_0|/|H_0|$")
     axes[1].set_title("(b) energy conservation"); axes[1].legend(loc="best")

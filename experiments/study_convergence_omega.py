@@ -101,11 +101,12 @@ def main():
     apply_style()
     fig, axes = plt.subplots(1, 2, figsize=(9.4, 3.7))
     for s in ["RK4", "SP-PINN"]:
-        axes[0].loglog(dts, err[s], "o-", color=COLORS[s], label=s)
-    # reference slopes
+        axes[0].loglog(dts, err[s], "o-", color=COLORS[s], label=s, zorder=5)
+    # reference slopes (offset slightly below the data so the guides do not sit
+    # on top of the SP-PINN curve)
     d = np.array(dts)
-    axes[0].loglog(d, err["RK4"][0] * (d / d[0]) ** 4, "k--", lw=1, label=r"slope 4")
-    axes[0].loglog(d, err["SP-PINN"][0] * (d / d[0]) ** 2, "k:", lw=1, label=r"slope 2")
+    axes[0].loglog(d, 0.6 * err["RK4"][0] * (d / d[0]) ** 4, "k--", lw=1, label=r"slope 4", zorder=1)
+    axes[0].loglog(d, 0.6 * err["SP-PINN"][0] * (d / d[0]) ** 2, "k-.", lw=1, label=r"slope 2", zorder=1)
     axes[0].set_xlabel(r"Time step $\Delta t$")
     axes[0].set_ylabel(r"Global error at $T=4$")
     axes[0].set_title("(a) order of convergence"); axes[0].legend(fontsize=9)
