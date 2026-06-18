@@ -1,4 +1,4 @@
-# SP-PINN: Symmetry-Preserving Integration of Relativistic Charged-Particle Dynamics
+# SP-PINN: A Symmetry-Preserving Framework for Relativistic Charged-Particle Dynamics
 
 Reference implementation and reproducibility package for the paper
 
