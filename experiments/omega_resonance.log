@@ -15,3 +15,14 @@ Omega grid: 1..60 step 1;  ~120 cyclotron periods/run
    resonance Omega            ~ ['10', '20', '40']
    2*Omega*dt/pi at peaks      = ['1.00', '2.00', '4.00']  (=> integer k means 2*Om*dt=k*pi)
    predicted Omega_k=k*pi/(2dt) = ['10.0', '20.0', '30.0', '40.0', '50.0', '60.0']
+
+[g8_dtEQ] gamma0=8.0  omega_c=0.125  dt=0.3142  [947.0s]
+   resonance Omega            ~ ['5', '10', '20', '30', '35', '40', '50']
+   2*Omega*dt/pi at peaks      = ['1.00', '2.00', '4.00', '6.00', '7.00', '8.00', '10.00']  (=> integer k means 2*Om*dt=k*pi)
+   predicted Omega_k=k*pi/(2dt) = ['5.0', '10.0', '15.0', '20.0', '25.0', '30.0', '35.0', '40.0', '45.0', '50.0', '55.0', '60.0']
+
+Total runtime: 2914.2 s  (logged to data/runtime_log.csv)
+Wrote data/study_omega_resonance.csv and figures/figure_omega_resonance.png
+
+INTERPRETATION: peaks move with dt (panel a) but collapse onto fixed
+2*Omega*dt = k*pi independent of omega_c (panel b) => Omega_k = k*pi/(2 dt).

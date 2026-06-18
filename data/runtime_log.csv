@@ -1,0 +1,2 @@
+timestamp,script,seconds,platform,detail
+2026-06-18T14:15:30,study_omega_resonance.py,2914.2,"Intel64 Family 6 Model 60 Stepping 3, GenuineIntel","4 configs x 60 omega, ~120 periods"

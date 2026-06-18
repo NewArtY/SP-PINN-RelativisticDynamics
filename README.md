@@ -2,8 +2,8 @@
 
 Reference implementation and reproducibility package for the paper
 
-> N. S. Akintsov, A. P. Nevecheria, S. N. Andreev, Q.-H. Qin,
-> *Symmetry-Preserving Physics-Informed Neural Network Integrator for
+> N. S. Akintsov, A. P. Nevecheria, G. Yuan, V. S. Igumnov, S. N. Andreev, Q.-H. Qin,
+> *Symmetry-Preserving Physics-Informed Neural Network Framework for
 > Relativistic Charged-Particle Dynamics in 3+1 Dimensions*, submitted to
 > **Symmetry** (MDPI), 2026.
 
@@ -17,7 +17,7 @@ long-time structure-preservation properties:
 | **Boris** | 2 | volume-preserving | standard PIC pusher; exact for pure gyration |
 | **RK4** | 4 | none | high short-time accuracy, secular long-time drift |
 | **RK8 (DOP853)** | 8 | none | tight-tolerance reference trajectory |
-| **SP-PINN** | 4 | **symplectic** | Stage-2 explicit symplectic map (Tao 2016) driven by a Hamiltonian surrogate |
+| **SP-PINN** | 4 (realized 2) | **symplectic** | Stage-2 explicit symplectic map (Tao 2016) driven by a Hamiltonian surrogate |
 
 Units throughout are `c = 1`, `m = 1`; the particle charge is `ch` (`-1` for an
 electron). Positions `r` and canonical momenta `P` are 3-vectors related to the
@@ -38,7 +38,7 @@ The method has two stages (see paper, Section 4):
   [`relsim/integrators.py`](relsim/integrators.py) (`TaoSymplectic`).
 
 > **Important (reproducibility note).** The headline comparison figures
-> (Figures 2–4) use the **analytic** Hamiltonian inside the Stage-2 symplectic
+> (Figures 2–6) use the **analytic** Hamiltonian inside the Stage-2 symplectic
 > map, i.e. the `ε_θ → 0` limit of a perfectly learned surrogate. This isolates
 > the *geometric* properties of the integrator from neural-network
 > approximation error. The realistic training-error floor `ε_θ` of the Stage-1
@@ -85,7 +85,7 @@ pip install -r requirements.txt
 
 ```bash
 cd experiments
-python run_all.py        # Simulations 1–5 -> figures/figure2..5.{pdf,png}, data/*.csv
+python run_all.py        # Simulations 1–7 -> figures/figure2..7.{pdf,png}, data/*.csv
 python make_fig1_schematic.py   # Figure 1 (architecture schematic)
 python pinn_demo.py      # Stage-1 PINN demonstrator: reports ε_θ
 ```
@@ -95,17 +95,18 @@ Each script can also be run individually; all write to `../figures` and
 
 | Script | Produces |
 |---|---|
-| `sim1_free_particle.py` | Table 2 (free particle, all schemes exact) |
+| `sim1_free_particle.py` | Table A1 (free particle, all schemes exact; now in Appendix A) |
 | `sim2_magnetic.py` | Figure 2 (Larmor & Lorentz-factor error, long time) |
 | `sim3_laser_trajectory.py` | Figure 3 (laser trajectory & energy error) |
 | `sim4_ensemble_spectrum.py` | Figure 4 (energy spectrum & transverse-momentum symmetry) |
-| `sim5_timing.py` | Figure 5 / Table 3 (computational cost) |
+| `sim5_timing.py` | Figure 6 / Table 2 (computational cost) |
 | `sim6_planewave.py` | Figure A1 (autonomized time-as-coordinate symplecticity; plane-wave P_x control) |
-| `sim7_nonintegrable.py` | Figure 6 (non-integrable B + anharmonic well; symplectic advantage) |
+| `sim7_nonintegrable.py` | Figure 5 (non-integrable B + anharmonic well; symplectic advantage) |
 | `study_convergence_omega.py` | Figure A2 (Δt-convergence order; Ω binding-constant study) |
+| `study_omega_resonance.py` | Ω-resonance scaling sweep verifying the Floquet condition 2ΩΔt = kπ, Ω_k = kπ/(2Δt) (data + figure; underpins Appendix A.2) |
 | `study_multiseed.py` | multi-seed ε_θ and timing statistics |
 | `make_fig1_schematic.py` | Figure 1 (architecture schematic) |
-| `train_laser_A_residual.py` | **GPU-recommended** Stage-1 training of the A-residual light-cone laser surrogate (the formulation that works; reaches ε_θ ≈ 3.4e-4). Writes the checkpoint to `../data`. |
+| `train_laser_A_residual.py` | **GPU-recommended** Stage-1 training of the A-residual light-cone laser surrogate (the formulation that works; reaches ε_θ ≈ 3.0e-4, 3-seed mean). Writes the checkpoint to `../data`. |
 | `make_fig_laser_surrogate.py` | Figure 7 (the *learned* surrogate in action: γ(t) of the learned-Hamiltonian trajectory vs the analytic reference) |
 | `notebooks/SP_PINN_3plus1D_surrogate_colab.ipynb` | **GPU** training of the time-dependent 3+1D laser surrogate (Google Colab) |
 
