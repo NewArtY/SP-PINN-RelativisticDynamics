@@ -21,6 +21,7 @@ repository-code: "https://github.com/NewArtY/SP-PINN-RelativisticDynamics"
 license: MIT
 version: "1.0.0"
 date-released: "2026-06-18"
+doi: "10.5281/zenodo.20746308"
 keywords:
   - "symmetry-preserving integration"
   - "relativistic dynamics"
