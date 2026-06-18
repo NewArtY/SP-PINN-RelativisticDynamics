@@ -58,8 +58,8 @@ def make_figure(Nps, res):
     ax.set_xlabel(r"Number of particles $N_p$")
     ax.set_ylabel(r"Wall-clock time per step [ms]")
     ax.legend(loc="best")
-    fig.savefig(os.path.join(_paths.FIG, "figure5.pdf"))
-    fig.savefig(os.path.join(_paths.FIG, "figure5.png"))
+    fig.savefig(os.path.join(_paths.FIG, "figure6.pdf"))  # manuscript Figure 6 (computational cost)
+    fig.savefig(os.path.join(_paths.FIG, "figure6.png"))
     plt.close(fig)
 
 

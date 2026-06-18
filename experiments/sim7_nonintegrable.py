@@ -84,8 +84,8 @@ def make_figure(res):
     axes[1].set_xlabel("time $t$")
     axes[1].set_ylabel(r"Relative energy error $|H(t)-H_0|/|H_0|$")
     axes[1].set_title("(b) energy conservation"); axes[1].legend(loc="best")
-    fig.savefig(os.path.join(_paths.FIG, "figure6.pdf"))
-    fig.savefig(os.path.join(_paths.FIG, "figure6.png"))
+    fig.savefig(os.path.join(_paths.FIG, "figure5.pdf"))  # manuscript Figure 5 (non-integrable system)
+    fig.savefig(os.path.join(_paths.FIG, "figure5.png"))
     plt.close(fig)
 
 

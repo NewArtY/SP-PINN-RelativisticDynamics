@@ -1,0 +1,27 @@
+{
+  "title": "SP-PINN-RelativisticDynamics: Reference Implementation for Symmetry-Preserving Relativistic Charged-Particle Integration",
+  "description": "Reproducibility package for the SP-PINN framework (Akintsov, Nevecheria, Yuan, Igumnov, Andreev, Qin; Symmetry, MDPI, 2026): field configurations; the Boris, RK4, DOP853, and Tao explicit symplectic integrators; the Stage-1 physics-informed neural-network training (including the vector-potential light-cone laser surrogate); and the methodological studies (order of convergence and the binding-constant Floquet resonances).",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT",
+  "creators": [
+    {
+      "name": "Akintsov, Nikolai S.",
+      "orcid": "0000-0002-1040-1292",
+      "affiliation": "Nantong University, Nantong, China"
+    },
+    {
+      "name": "Nevecheria, Artem P.",
+      "orcid": "0000-0001-6736-4691",
+      "affiliation": "Kuban State University, Krasnodar, Russia"
+    }
+  ],
+  "keywords": [
+    "symmetry-preserving integration",
+    "relativistic dynamics",
+    "physics-informed neural networks",
+    "symplectic integrator",
+    "Lorentz invariance",
+    "laser-plasma acceleration"
+  ]
+}

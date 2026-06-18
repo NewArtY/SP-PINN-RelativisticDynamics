@@ -1,0 +1,51 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the accompanying article (see preferred-citation) and, where relevant, this archived software release."
+title: "SP-PINN-RelativisticDynamics: Reference Implementation for Symmetry-Preserving Relativistic Charged-Particle Integration"
+abstract: >-
+  Reproducibility package for the SP-PINN framework: field configurations; the
+  Boris, RK4, DOP853, and Tao explicit symplectic integrators; the Stage-1
+  physics-informed neural-network training (including the vector-potential
+  light-cone laser surrogate); and the methodological studies (order of
+  convergence and the binding-constant Floquet resonances).
+type: software
+authors:
+  - family-names: "Akintsov"
+    given-names: "Nikolai S."
+    orcid: "https://orcid.org/0000-0002-1040-1292"
+    affiliation: "School of Artificial Intelligence and Computer Science, Nantong University, Nantong, China"
+  - family-names: "Nevecheria"
+    given-names: "Artem P."
+    orcid: "https://orcid.org/0000-0001-6736-4691"
+    affiliation: "Department of Mathematical and Computer Methods, Kuban State University, Krasnodar, Russia"
+repository-code: "https://github.com/NewArtY/SP-PINN-RelativisticDynamics"
+license: MIT
+version: "1.0.0"
+date-released: "2026-06-18"
+keywords:
+  - "symmetry-preserving integration"
+  - "relativistic dynamics"
+  - "physics-informed neural networks"
+  - "symplectic integrator"
+  - "Lorentz invariance"
+  - "laser-plasma acceleration"
+preferred-citation:
+  type: article
+  title: "Symmetry-Preserving Physics-Informed Neural Network Framework for Relativistic Charged-Particle Dynamics in 3+1 Dimensions"
+  authors:
+    - family-names: "Akintsov"
+      given-names: "Nikolai S."
+    - family-names: "Nevecheria"
+      given-names: "Artem P."
+    - family-names: "Yuan"
+      given-names: "Gaoteng"
+    - family-names: "Igumnov"
+      given-names: "Vladislav S."
+    - family-names: "Andreev"
+      given-names: "Stepan N."
+    - family-names: "Qin"
+      given-names: "Qing-Hua"
+  journal: "Symmetry"
+  publisher:
+    name: "MDPI"
+  year: 2026
+  # doi: "10.3390/sym........"   # add the article DOI once assigned

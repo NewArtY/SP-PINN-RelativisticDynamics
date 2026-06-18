@@ -5,3 +5,10 @@ __pycache__/
 experiments/_tune*.py
 *.egg-info/
 .idea/
+
+# Secrets - never commit API tokens / keys (e.g. the Kaggle token)
+kaggle.txt
+**/kaggle*.txt
+*.token
+*.key
+.kaggle/
