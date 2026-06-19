@@ -70,6 +70,36 @@ def rk4_step(field, r, p, t, dt):
 
 
 # ----------------------------------------------------------------------
+# Higuera--Cary pusher (kinetic momentum p; volume preserving, 2nd order)
+# ----------------------------------------------------------------------
+def higuera_cary_step(field, r, p, t, dt):
+    """Higuera--Cary relativistic pusher (Phys. Plasmas 24, 052104, 2017): the
+    Boris rotation performed with the future-consistent Lorentz factor
+    ``gamma^+`` obtained from the Higuera--Cary quadratic.  Volume preserving and
+    second order, like Boris, but with the correct E x B drift.  Same kinetic
+    ``(r, p)`` interface as :func:`boris_step`, so it is a drop-in comparator."""
+    ch = field.ch
+    E = field.E(r, t)
+    B = field.B(r, t)
+    u_minus = p + ch * E * dt / 2.0
+    gm2 = 1.0 + np.sum(u_minus * u_minus, axis=-1, keepdims=True)
+    tau = ch * B * dt / 2.0
+    tau2 = np.sum(tau * tau, axis=-1, keepdims=True)
+    u_star = np.sum(u_minus * tau, axis=-1, keepdims=True)
+    sigma = gm2 - tau2
+    g_plus = np.sqrt((sigma + np.sqrt(sigma * sigma + 4.0 * (tau2 + u_star * u_star))) / 2.0)
+    tvec = tau / g_plus
+    t2 = np.sum(tvec * tvec, axis=-1, keepdims=True)
+    s = 2.0 * tvec / (1.0 + t2)
+    u_prime = u_minus + np.cross(u_minus, tvec)
+    u_plus = u_minus + np.cross(u_prime, s)
+    p_new = u_plus + ch * E * dt / 2.0
+    g_new = np.sqrt(1.0 + np.sum(p_new * p_new, axis=-1, keepdims=True))
+    r_new = r + dt * p_new / g_new
+    return r_new, p_new
+
+
+# ----------------------------------------------------------------------
 # RK8 reference trajectory (single particle), DOP853
 # ----------------------------------------------------------------------
 def rk8_reference(field, r0, p0, t_eval):

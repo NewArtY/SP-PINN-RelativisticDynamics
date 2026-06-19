@@ -3,10 +3,15 @@ message: "If you use this software, please cite the accompanying article (see pr
 title: "SP-PINN-RelativisticDynamics: Reference Implementation for Symmetry-Preserving Relativistic Charged-Particle Integration"
 abstract: >-
   Reproducibility package for the SP-PINN framework: field configurations; the
-  Boris, RK4, DOP853, and Tao explicit symplectic integrators; the Stage-1
-  physics-informed neural-network training (including the vector-potential
+  Boris, RK4, Higuera-Cary, DOP853, and Tao explicit symplectic integrators; the
+  Stage-1 physics-informed neural-network training (including the vector-potential
   light-cone laser surrogate); and the methodological studies (order of
-  convergence and the binding-constant Floquet resonances).
+  convergence and the binding-constant Floquet resonances). Version 1.1 adds the
+  Higuera-Cary comparator, direct Poincare-Cartan loop-invariant and energy-drift
+  diagnostics, the realized-order/shadow-Hamiltonian and exact-monodromy (k mod 3)
+  studies, and the Kaggle GPU kernels for the throughput benchmark, surrogate
+  scaling/ablation, multi-seed statistics, the architecture sweep, and the
+  pulse-duration parametric surrogate.
 type: software
 authors:
   - family-names: "Akintsov"
@@ -19,8 +24,11 @@ authors:
     affiliation: "Department of Mathematical and Computer Methods, Kuban State University, Krasnodar, Russia"
 repository-code: "https://github.com/NewArtY/SP-PINN-RelativisticDynamics"
 license: MIT
-version: "1.0.0"
-date-released: "2026-06-18"
+version: "1.1.0"
+date-released: "2026-06-19"
+# DOI: 10.5281/zenodo.20746308 is the v1.0.0 *version* DOI. For v1.1.0, mint a new
+# version DOI via Zenodo (a new GitHub release triggers it) and put it here; or use
+# the Zenodo *concept* DOI, which always resolves to the latest version. See README.
 doi: "10.5281/zenodo.20746308"
 keywords:
   - "symmetry-preserving integration"

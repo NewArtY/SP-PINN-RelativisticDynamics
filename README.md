@@ -17,6 +17,7 @@ long-time structure-preservation properties:
 | Scheme | Order | Structure | Notes |
 |---|---|---|---|
 | **Boris** | 2 | volume-preserving | standard PIC pusher; exact for pure gyration |
+| **Higuera–Cary** | 2 | volume-preserving | modern relativistic pusher; structure-preserving comparator |
 | **RK4** | 4 | none | high short-time accuracy, secular long-time drift |
 | **RK8 (DOP853)** | 8 | none | tight-tolerance reference trajectory |
 | **SP-PINN** | 4 (realized 2) | **symplectic** | Stage-2 explicit symplectic map (Tao 2016) driven by a Hamiltonian surrogate |
@@ -106,6 +107,9 @@ Each script can also be run individually; all write to `../figures` and
 | `sim7_nonintegrable.py` | Figure 5 (non-integrable B + anharmonic well; symplectic advantage) |
 | `study_convergence_omega.py` | Figure A2 (Δt-convergence order; Ω binding-constant study) |
 | `study_omega_resonance.py` | Ω-resonance scaling sweep verifying the Floquet condition 2ΩΔt = kπ, Ω_k = kπ/(2Δt) (data + figure; underpins Appendix A.2) |
+| `study_invariants.py` | δI₁(t) Poincaré–Cartan loop-invariant + energy-drift diagnostics with the {Boris, Higuera–Cary, RK4, Tao} comparator (`deltaI1.png`, `energy_drift.png`, `loop_convergence.png`) |
+| `study_mechanism.py` | realized order (4 at fixed Ω, 2 in the coupled limit Ω∝Δt⁻¹) and the shadow Hamiltonian (`mechanism.png`) |
+| `study_monodromy.py` | exact Floquet monodromy eigenvalues and the *derived* k mod 3 band-strength rule of Appendix A.2 (`monodromy_bars.png`) |
 | `study_multiseed.py` | multi-seed ε_θ and timing statistics |
 | `make_fig1_schematic.py` | Figure 1 (architecture schematic) |
 | `train_laser_A_residual.py` | **GPU-recommended** Stage-1 training of the A-residual light-cone laser surrogate (the formulation that works; reaches ε_θ ≈ 3.0e-4, 3-seed mean). Writes the checkpoint to `../data`. |
@@ -133,13 +137,20 @@ a higher formal order — clearest on the non-integrable test (`sim7`).
 ```
 relsim/            core library
   fields.py        EM fields + analytic relativistic Hamiltonian and gradients
-  integrators.py   Boris, RK4, RK8 reference, Tao explicit symplectic map
+  integrators.py   Boris, Higuera–Cary, RK4, RK8 reference, Tao explicit symplectic map
   pinn.py          Stage-1 PINN Hamiltonian learning (+ PINNField adapter)
   diagnostics.py   gamma, Larmor radius, Poincaré loop invariant, etc.
   plotstyle.py     shared publication-quality Matplotlib styling
 experiments/       runnable scripts producing every figure/table
+kaggle/            self-contained Kaggle GPU kernels (throughput benchmark,
+                   surrogate scaling/ablation, multi-seed, architecture sweep,
+                   pulse-duration parametric surrogate); see kaggle/README.md
 figures/  data/    outputs (created on first run)
 ```
+
+> **GPU studies.** The heavier surrogate-training and benchmark runs live under
+> [`kaggle/`](kaggle/) as standalone, push-ready Kaggle kernels (no API token is
+> bundled — configure your own; see `kaggle/README.md`).
 
 ## License
 
