@@ -1,6 +1,6 @@
 # SP-PINN: A Symmetry-Preserving Framework for Relativistic Charged-Particle Dynamics
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20746308.svg)](https://doi.org/10.5281/zenodo.20746308)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20766854.svg)](https://doi.org/10.5281/zenodo.20766854)
 
 Reference implementation and reproducibility package for the paper
 
